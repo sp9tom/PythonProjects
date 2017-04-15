@@ -18,8 +18,6 @@
     obiekt.showMixed(X, Y, 'plik.bmp', [[font, X, Y, 'Tekst1'], [font, X, Y, 'Tekst2']]) - wyswietlanie tresci mieszanej
 '''
 
-__author__ = 'Tomasz'
-
 import serial
 from PIL import Image
 
@@ -51,9 +49,7 @@ class MobitecFlipDot():
 
     # Metoda czyszczaca matryce wyswietlacza
     def clearScreen(self):
-
         cleanOrder = ['0xA2', '0xD2', '0x00', '0xD3', '0x00', '0xD4', '0x00', '0x20']
-
         cleanOrder.insert(0, self.displayAddress)
         crcSum = self.controlCheckValue(cleanOrder)
         if crcSum >= 254:
@@ -61,45 +57,36 @@ class MobitecFlipDot():
             cleanOrder.append(hex(crcSum + 2))
         else:
             cleanOrder.append(hex(crcSum))
-
         # Znaczniki poczatku i konca ramki
         cleanOrder.insert(0, '0xFF')
         cleanOrder.append('0xFF')
-
         # Wyslanie ramki rozkazu do wyswietlacza
         self.sendData(cleanOrder)
-
         return cleanOrder
 
     # Metoda wyswietlajaca podane teksty, z wybranym fontem, w podanych miejscach wyswietlacza
     def writeText(self, data):
         # Zmienna do budowy ramki wyswietlajacej napisy
         writeOrder = []
-
         # Budowanie podstawowej struktury ramki (adres wyswietlacza)
         # i wprowadzenie zestawu tekstow (czcionka, pozycja tekstu, tekst)
         writeOrder.append(self.displayAddress)
         writeOrder.append('0xA2')
-
         for set in data:
             writeOrder.append('0xD2')
             writeOrder.append(str(hex(set[1])))
             writeOrder.append('0xD3')
             writeOrder.append(str(hex(set[2])))
             writeOrder.append('0xD4')
-
             # Ustawienie jednej z czcionek (wybor ze zbioru dostepnych)
             if set[0] >= 0 and set[0] <= 21:
                 self.font = self.mobitecFont[set[0]]
             else:
                 self.font = self.mobitecFont[0]
-
             writeOrder.append(self.font)
-
             # Przetwarzanie podanego tekstu z zestawu na Hex
             for sign in set[3]:
                 writeOrder.append(hex(ord(sign)))
-
         # Wyliczenie sumy kontrolnej ramki
         crcSum = self.controlCheckValue(writeOrder)
         if crcSum >= 254:
@@ -107,26 +94,21 @@ class MobitecFlipDot():
             writeOrder.append(hex(crcSum + 2))
         else:
             writeOrder.append(hex(crcSum))
-
         # Znaczniki poczatku i konca ramki
         writeOrder.insert(0, '0xFF')
         writeOrder.append('0xFF')
-
         # Wyslanie ramki rozkazu do wyswietlacza
         self.sendData(writeOrder)
-
         return writeOrder
 
     # Metoda buduje ramke i wysyla rozkaz z podanymi obrazami pikselowymi
     def showPixel(self, map):
         # Zmienna do budowy ramki wyswietlajacej obrazy pikselowe
         pixelOrder = []
-
         # Budowanie podstawowej struktury ramki (adres wyswietlacza)
         # i wprowadzenie mapy symboli
         pixelOrder.append(self.displayAddress)
         pixelOrder.append('0xA2')
-
         # Rysowanie pikseli wedlug podanej mapy
         for piksel in map:
             pixelOrder.append('0xD2')
@@ -136,7 +118,6 @@ class MobitecFlipDot():
             pixelOrder.append('0xD4')
             pixelOrder.append('0x77')
             pixelOrder.append('0x21')
-
         # Wyliczenie sumy kontrolnej ramki
         crcSum = self.controlCheckValue(pixelOrder)
         if crcSum >= 254:
@@ -144,14 +125,11 @@ class MobitecFlipDot():
             pixelOrder.append(hex(crcSum + 2))
         else:
             pixelOrder.append(hex(crcSum))
-
         # Znaczniki poczatku i konca ramki
         pixelOrder.insert(0, '0xFF')
         pixelOrder.append('0xFF')
-
         # Wyslanie ramki rozkazu do wyswietlacza
         self.sendData(pixelOrder)
-
         return pixelOrder
 
     # Metoda przenosi obraz bimapy na ekran
@@ -160,7 +138,6 @@ class MobitecFlipDot():
         pictureMap = []
         bmp = Image.open(bitmap)
         picture = bmp.convert('RGB')
-
         for x in range(picture.size[0]):
             for y in range(picture.size[1]):
                 if picture.getpixel((x, y)) == (0, 0, 0):
@@ -172,34 +149,27 @@ class MobitecFlipDot():
     def showMixed(self, xR, yR, file, texts):
         # Zmienna do budowy ramki o mieszanej tresci (tekst + napisy)
         mixedOrder = []
-
         # Budowanie podstawowej struktury ramki (adres wyswietlacza)
         # i wprowadzenie zestawu tekstow (czcionka, pozycja tekstu, tekst)
         mixedOrder.append(self.displayAddress)
         mixedOrder.append('0xA2')
-
         bmp = Image.open(file)
         obrazek = bmp.convert('RGB')
-
         for set in texts:
             mixedOrder.append('0xD2')
             mixedOrder.append(str(hex(set[1])))
             mixedOrder.append('0xD3')
             mixedOrder.append(str(hex(set[2])))
             mixedOrder.append('0xD4')
-
             # Ustawienie jednej z czcionek (wybor ze zbioru dostepnych)
             if set[0] >= 0 and set[0] <= 21:
                 self.tekstCzcionka = self.mobitecFont[set[0]]
             else:
                 self.tekstCzcionka = self.mobitecFont[0]
-
             mixedOrder.append(self.tekstCzcionka)
-
             # Przetwarzanie podanego tekstu z zestawu na Hex
             for litera in set[3]:
                 mixedOrder.append(hex(ord(litera)))
-
         for x in range(obrazek.size[0]):
             for y in range(obrazek.size[1]):
                 if obrazek.getpixel((x, y)) == (0, 0, 0):
@@ -211,7 +181,6 @@ class MobitecFlipDot():
                     mixedOrder.append('0xD4')
                     mixedOrder.append('0x77')
                     mixedOrder.append('0x21')
-
         # Wyliczenie sumy kontrolnej ramki
         sumaCRC = self.controlCheckValue(mixedOrder)
         if sumaCRC >= 254:
@@ -219,12 +188,9 @@ class MobitecFlipDot():
             mixedOrder.append(hex(sumaCRC + 2))
         else:
             mixedOrder.append(hex(sumaCRC))
-
         # Znaczniki poczatku i konca ramki
         mixedOrder.insert(0, '0xFF')
         mixedOrder.append('0xFF')
-
         # Wyslanie ramki rozkazu do wyswietlacza
         self.sendData(mixedOrder)
-
         return mixedOrder
