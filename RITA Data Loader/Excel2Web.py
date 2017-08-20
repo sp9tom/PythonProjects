@@ -8,6 +8,7 @@ import re
 import openpyxl
 import datetime
 
+
 class Formularz():
     driver = webdriver.Firefox()
     lgn = "biuro@mila.org.pl"
@@ -56,19 +57,22 @@ class Formularz():
             klDodajPozycje.click()
             window = self.driver.switch_to_active_element()
 
-            poz1 = window.find_element_by_xpath("/html/body/table/tbody/tr/td/div/div[1]/div[2]/div/table/tbody/tr[1]/td[2]/input")
+            poz1 = window.find_element_by_xpath(
+                "/html/body/table/tbody/tr/td/div/div[1]/div[2]/div/table/tbody/tr[1]/td[2]/input")
             sleep(1)
             poz1.click()
             poz1.send_keys(input[0])
             sleep(1)
 
-            poz2 = window.find_element_by_xpath("/html/body/table/tbody/tr/td/div/div[1]/div[2]/div/table/tbody/tr[2]/td[2]/input")
+            poz2 = window.find_element_by_xpath(
+                "/html/body/table/tbody/tr/td/div/div[1]/div[2]/div/table/tbody/tr[2]/td[2]/input")
             sleep(1)
             poz2.click()
             poz2.send_keys(input[1])
             sleep(1)
 
-            poz3 = window.find_element_by_xpath("/html/body/table/tbody/tr/td/div/div[1]/div[2]/div/table/tbody/tr[3]/td[2]/input")
+            poz3 = window.find_element_by_xpath(
+                "/html/body/table/tbody/tr/td/div/div[1]/div[2]/div/table/tbody/tr[3]/td[2]/input")
             sleep(1)
             poz3.click()
             poz3.send_keys(input[2])
@@ -76,7 +80,8 @@ class Formularz():
             poz3.send_keys(Keys.ENTER)
             sleep(1)
 
-            poz4 = window.find_element_by_xpath("/html/body/table/tbody/tr/td/div/div[1]/div[2]/div/table/tbody/tr[4]/td[2]/input")
+            poz4 = window.find_element_by_xpath(
+                "/html/body/table/tbody/tr/td/div/div[1]/div[2]/div/table/tbody/tr[4]/td[2]/input")
             sleep(1)
             poz4.click()
             poz4.send_keys(input[3])
@@ -84,40 +89,46 @@ class Formularz():
             poz4.send_keys(Keys.ENTER)
             sleep(1)
 
-            window.find_element_by_xpath("//select[@class='input-sm']/option[text()='%s']" % input[4]).click() # poz5
+            window.find_element_by_xpath("//select[@class='input-sm']/option[text()='%s']" % input[4]).click()  # poz5
             sleep(1)
 
-            poz6 = window.find_element_by_xpath("/html/body/table/tbody/tr/td/div/div[1]/div[2]/div/table/tbody/tr[6]/td[2]/input")
+            poz6 = window.find_element_by_xpath(
+                "/html/body/table/tbody/tr/td/div/div[1]/div[2]/div/table/tbody/tr[6]/td[2]/input")
             sleep(1)
             poz6.click()
             poz6.send_keys(input[5])
             sleep(1)
 
-            poz7 = window.find_element_by_xpath("/html/body/table/tbody/tr/td/div/div[1]/div[2]/div/table/tbody/tr[7]/td[2]/input")
+            poz7 = window.find_element_by_xpath(
+                "/html/body/table/tbody/tr/td/div/div[1]/div[2]/div/table/tbody/tr[7]/td[2]/input")
             sleep(1)
             poz7.click()
             poz7.send_keys(input[6])
             sleep(1)
 
-            poz8 = window.find_element_by_xpath("/html/body/table/tbody/tr/td/div/div[1]/div[2]/div/table/tbody/tr[8]/td[2]/input")
+            poz8 = window.find_element_by_xpath(
+                "/html/body/table/tbody/tr/td/div/div[1]/div[2]/div/table/tbody/tr[8]/td[2]/input")
             sleep(1)
             poz8.click()
             poz8.send_keys(input[7])
             sleep(1)
 
-            poz9 = window.find_element_by_xpath("/html/body/table/tbody/tr/td/div/div[1]/div[2]/div/table/tbody/tr[9]/td[2]/input")
+            poz9 = window.find_element_by_xpath(
+                "/html/body/table/tbody/tr/td/div/div[1]/div[2]/div/table/tbody/tr[9]/td[2]/input")
             sleep(1)
             poz9.click()
             poz9.send_keys(input[8])
             sleep(1)
 
-            poz10 = window.find_element_by_xpath("/html/body/table/tbody/tr/td/div/div[1]/div[2]/div/table/tbody/tr[10]/td[2]/input")
+            poz10 = window.find_element_by_xpath(
+                "/html/body/table/tbody/tr/td/div/div[1]/div[2]/div/table/tbody/tr[10]/td[2]/input")
             sleep(1)
             poz10.click()
             poz10.send_keys(input[9])
             sleep(1)
 
-            poz11 = window.find_element_by_xpath("/html/body/table/tbody/tr/td/div/div[1]/div[2]/div/table/tbody/tr[11]/td[2]/input")
+            poz11 = window.find_element_by_xpath(
+                "/html/body/table/tbody/tr/td/div/div[1]/div[2]/div/table/tbody/tr[11]/td[2]/input")
             sleep(1)
             poz11.click()
             poz11.send_keys(input[10])
@@ -127,7 +138,8 @@ class Formularz():
             # klPorzuc.click()
             # sleep(2)
 
-            klDodaj = window.find_element_by_xpath("/html/body/table/tbody/tr/td/div/div[1]/div[2]/div/footer/p/button[1]")
+            klDodaj = window.find_element_by_xpath(
+                "/html/body/table/tbody/tr/td/div/div[1]/div[2]/div/footer/p/button[1]")
             klDodaj.click()
             sleep(2)
 
